@@ -68,6 +68,19 @@ struct MyPageReducer {
              - 각 페이지 내부에서 처리할 액션은 처리하고 부모뷰에서(지금뷰) 처리할 액션은 따로 처리한다
              */
             case .path(let stackAction):
+                switch stackAction {
+                case .element(let id, let action):
+                    switch action {
+                    case .name(.onEditSuccess(let name)):
+                        state.userName = name
+                        state.path.pop(from: id)
+                    case .email(.onEditSuccess(let email)):
+                        state.userEmail = email
+                        state.path.pop(from: id)
+                    default: return .none
+                    }
+                    default: return .none
+                }
                 return Effect.none
                 
             case .tapOption(let option):
